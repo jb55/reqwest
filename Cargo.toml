@@ -47,9 +47,9 @@ rustls-tls-manual-roots-no-provider = ["__rustls"]
 rustls-tls-webpki-roots-no-provider = ["dep:webpki-roots", "hyper-rustls?/webpki-tokio", "__rustls"]
 rustls-tls-native-roots-no-provider = ["dep:rustls-native-certs", "hyper-rustls?/native-tokio", "__rustls"]
 
-rustls-tls-manual-roots = ["rustls-tls-manual-roots-no-provider", "__rustls-ring"]
-rustls-tls-webpki-roots = ["rustls-tls-webpki-roots-no-provider", "__rustls-ring"]
-rustls-tls-native-roots = ["rustls-tls-native-roots-no-provider", "__rustls-ring"]
+rustls-tls-manual-roots = ["rustls-tls-manual-roots-no-provider"]
+rustls-tls-webpki-roots = ["rustls-tls-webpki-roots-no-provider"]
+rustls-tls-native-roots = ["rustls-tls-native-roots-no-provider"]
 
 blocking = ["dep:futures-channel", "futures-channel?/sink", "futures-util/io", "futures-util/sink", "tokio/sync"]
 
@@ -81,7 +81,7 @@ socks = ["dep:tokio-socks"]
 macos-system-configuration = ["dep:system-configuration"]
 
 # Experimental HTTP/3 client.
-http3 = ["rustls-tls-manual-roots", "dep:h3", "dep:h3-quinn", "dep:quinn", "dep:slab", "dep:futures-channel"]
+http3 = ["rustls-tls-manual-roots", "dep:h3", "dep:slab", "dep:futures-channel"]
 
 
 # Internal (PRIVATE!) features used to aid testing.
@@ -93,7 +93,6 @@ __tls = ["dep:rustls-pemfile", "tokio/io-util"]
 # Enables common rustls code.
 # Equivalent to rustls-tls-manual-roots but shorter :)
 __rustls = ["dep:hyper-rustls", "dep:tokio-rustls", "dep:rustls", "__tls", "dep:rustls-pemfile", "dep:rustls-pki-types"]
-__rustls-ring = ["hyper-rustls?/ring", "tokio-rustls?/ring", "rustls?/ring", "quinn?/ring"]
 
 # When enabled, disable using the cached SYS_PROXIES.
 __internal_proxy_sys_no_cache = []
@@ -142,7 +141,7 @@ tokio-native-tls = { version = "0.3.0", optional = true }
 
 # rustls-tls
 hyper-rustls = { version = "0.27.0", default-features = false, optional = true, features = ["http1", "tls12"] }
-rustls = { version = "0.23.4", optional = true, default-features = false, features = ["std", "tls12"] }
+rustls = { version = "0.23.18", optional = true, default-features = false, features = ["std", "tls12"] }
 rustls-pki-types = { version = "1.1.0", features = ["alloc"] ,optional = true }
 tokio-rustls = { version = "0.26", optional = true, default-features = false, features = ["tls12"] }
 webpki-roots = { version = "0.26.0", optional = true }
@@ -164,8 +163,6 @@ hickory-resolver = { version = "0.24", optional = true, features = ["tokio-runti
 
 # HTTP/3 experimental support
 h3 = { version = "0.0.6", optional = true }
-h3-quinn = { version = "0.0.7", optional = true }
-quinn = { version = "0.11.1", default-features = false, features = ["rustls", "runtime-tokio"], optional = true }
 slab = { version = "0.4.9", optional = true } # just to get minimal versions working with quinn
 futures-channel = { version = "0.3", optional = true }
 
@@ -181,7 +178,7 @@ zstd_crate = { package = "zstd", version = "0.13" }
 doc-comment = "0.3"
 tokio = { version = "1.0", default-features = false, features = ["macros", "rt-multi-thread"] }
 futures-util = { version = "0.3.28", default-features = false, features = ["std", "alloc"] }
-rustls = { version = "0.23", default-features = false, features = ["ring"] }
+rustls = { version = "0.23", default-features = false }
 
 [target.'cfg(windows)'.dependencies]
 windows-registry = "0.2"
